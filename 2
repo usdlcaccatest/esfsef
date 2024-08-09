@@ -1,1 +1,12 @@
-
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local ClientReplicatedClassesFolder = LocalPlayer.PlayerScripts.Modules.ClientReplicatedClasses
+local ClientItemModule = require(ClientReplicatedClassesFolder.ClientFighter.ClientItem)
+local InputFunction = ClientItemModule.Input
+local OldInputFunction; OldInputFunction = hookfunction(InputFunction, function(...)
+    local Arguments = {...}
+    if type(Arguments[1]) == "table" then
+        Arguments[1].Info.ShootSpread = 0
+    end
+    return OldInputFunction(...)
+end)
